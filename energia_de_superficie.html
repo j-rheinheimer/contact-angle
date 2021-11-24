@@ -1,0 +1,229 @@
+<html>
+
+<head>
+
+  <title>Surface tension</title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+  <script>
+
+	function calc() {
+
+         var gld    = ["50.80", "27.20", "28.90", "28.50"];
+
+         var opt    = document.getElementById("liquidos").selectedIndex;
+
+         var angulo        = document.getElementById("angcont").value;
+
+         var aliqui        = document.getElementById("angliqu").value;
+
+         var tdisp         = 0;       
+
+         var enerSupDisp   = 0;
+
+         var enerSupPolar  = 0;
+
+         var enerSuperficie= 0;
+
+
+
+         switch (opt) {
+
+            case 0: {
+
+                tdisp =  50.80;
+
+                break;
+
+            }
+
+            case 1: {
+
+                tdisp =  27.20;
+
+                break;
+
+            }
+
+
+
+            case 2: {
+
+                tdisp =  28.90;
+
+                break;
+
+            }
+
+            case 3: {
+
+                tdisp =  28.50;
+
+                break;
+
+            }
+
+            default: {
+
+                alert("Choose a liquid!");
+
+            }
+
+         }
+
+
+
+         <!-- Calula Energia de Superfície (componente) Dispersiva -->
+
+         enerSupDisp =   (tdisp * (Math.pow((Math.cos(aliqui*0.0174533)+1),2))) / 4;
+
+         document.getElementById("compdist").value = Math.round(enerSupDisp * 100) / 100;
+
+
+
+
+
+         <!-- Calcula Energia de Superfície (componente) Polar -->
+
+         enerSupPolar = Math.pow(((((72.80*(Math.cos(angulo*0.0174533)+1))/2) - (Math.pow(21.8, 0.5)*Math.pow(enerSupDisp, 0.5))) / Math.pow(51.00, 0.5)), 2);
+
+
+
+         enerSuperficie =  enerSupDisp + enerSupPolar;
+
+
+
+         document.getElementById("compolar").value = Math.round(enerSupPolar   * 100) / 100;
+
+         document.getElementById("energia").value  = Math.round(enerSuperficie * 100) / 100;
+
+
+
+	}
+
+	function limpa() {
+
+         document.getElementById("liquidos").selectedIndex = 1;
+
+         document.getElementById("angcont").value  = "0.00";
+
+         document.getElementById("angliqu").value  = "0.00";
+
+         document.getElementById("compdist").value = "0.00";
+
+         document.getElementById("compolar").value = "0.00";
+
+         document.getElementById("energia").value  = "0.00";
+
+	}
+
+	function testaNumero(dado){ 
+
+         if (isNaN(dado)) {
+
+            alert("Invalid entry. Type a numeric value.");
+
+         } else {
+
+            if (dado < 0) {
+
+               alert("Please type a positive value for angle.");
+
+             <!-- document.getElementById("angcont").value = "0.00";  -->
+
+            }
+
+         }
+
+	}
+
+   </script>
+
+
+
+</head>
+
+<body>
+
+  <h1><b>Surface tension</b></h1>
+
+  <h3>Liquids options:
+
+  <select id="liquidos">
+
+    <option value="op1">diiodomethane</option>
+
+    <option value="op2">chloroform</option>
+
+    <option value="op3">benzene</option>
+
+    <option value="op4">toluene</option>
+
+  </select>
+
+  </h3>  
+
+  <table>
+
+	  <tr>
+
+	  	 <th align="right"> Contact angle for water: </th>
+
+	  	 <th> <input id="angcont" type="text" value="0.00"  maxlength="7" size="7"  onchange="testaNumero(this.value)"> </th>
+
+         <th align="left">degrees</th>
+
+	  </tr>
+
+    <tr>
+
+       <th align="right"> Contact angle for the second liquid:</th>
+
+       <th> <input id="angliqu" type="text" value="0.00"  maxlength="7" size="7"  onenter=" " onchange="testaNumero(this.value)"> </th>
+
+       <th align="left">degrees</th>
+
+    </tr>
+
+	  <tr>
+
+	  	 <th align="right">Dispersive component: </th>
+
+	  	 <th> <input id="compdist" type="text" value="0.00"  maxlength="7" size="7" readonly> </th>
+
+         <th align="left">mJ/m<sup>2</sup></th>
+
+	  </tr>
+
+	  <tr>
+
+	  	 <th align="right">Polar component : </th>
+
+	  	 <th> <input id="compolar" type="text" value="0.00"  maxlength="7" size="7" readonly> </th>
+
+         <th align="left">mJ/m<sup>2</sup></th>
+
+	  </tr>
+
+	  <tr>
+
+	  	 <th align="right">Surface tension : </th>
+
+	  	 <th> <input id="energia" type="text"  value="0.00"  maxlength="7" size="7" readonly></th>
+
+         <th align="left">mJ/m<sup>2</sup></th>
+
+	  </tr>
+
+  </table>
+
+  <br>
+
+  <input id="calcular" type="submit" value="Calc" onclick="calc()">
+
+  <input id="Limpar"   type="submit" value="Clear"   onclick="limpa()">
+
+</body>
+
+</html>
